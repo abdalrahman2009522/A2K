@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مساعد LMJO 09 - المحادثة</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        accent: '#8b5cf6',
+                        background: '#0a0a0a',
+                        card: '#161616',
+                        muted: '#a1a1aa',
+                        border: '#27272a',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-screen w-full relative overflow-hidden bg-background flex">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden fixed top-0 w-full z-40 glass p-4 flex items-center justify-between">
+        <button onclick="toggleSidebar(true)" class="p-2.5 bg-card border border-border rounded-xl">
+            <i data-lucide="menu" class="w-5 h-5 text-primary"></i>
+        </button>
+        <span class="font-bold text-lg text-gradient">LMJO 09</span>
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleSidebar(false)"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar z-50 fixed lg:relative lg:right-0">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <i data-lucide="bot" class="w-6 h-6 text-primary"></i>
+                    </div>
+                    <span class="text-xl font-black text-gradient">LMJO 09</span>
+                </div>
+                <button onclick="toggleSidebar(false)" class="lg:hidden p-2 hover:bg-zinc-800 rounded-full">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <button onclick="window.location.reload()" class="w-full p-4 flex items-center gap-3 bg-primary text-white rounded-2xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all mb-8">
+                <i data-lucide="plus" class="w-5 h-5"></i>
+                محادثة جديدة
+            </button>
+
+            <nav class="flex-grow space-y-2 overflow-y-auto">
+                <p class="text-[10px] uppercase tracking-widest text-muted font-black mb-4 px-2">التوجيهي الأردني (جيل 2009)</p>
+                <a href="index.html" class="flex items-center gap-3 p-3 text-muted hover:text-white hover:bg-zinc-800 rounded-xl transition-all">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                    الرئيسية
+                </a>
+                <div class="flex items-center gap-3 p-3 text-muted border border-transparent">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                    اللغة العربية
+                </div>
+                <!-- More items can be added here -->
+            </nav>
+
+            <div class="mt-auto border-t border-border pt-6 space-y-4">
+                <div class="flex items-center gap-3 p-3 bg-primary/5 rounded-2xl border border-primary/10">
+                    <div class="p-2 bg-primary/10 rounded-lg">
+                        <i data-lucide="settings" class="w-4 h-4 text-primary"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold">الإعدادات</span>
+                        <span class="text-[10px] text-muted">الوضع المهني</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Chat Content -->
+    <main class="flex-1 h-full flex flex-col relative w-full overflow-hidden">
+        <!-- Desktop Header -->
+        <header class="hidden lg:flex fixed top-0 w-full z-10 glass p-4 h-16 items-center justify-between pr-[320px]">
+            <div class="flex items-center gap-2">
+                <i data-lucide="bot" class="w-5 h-5 text-primary"></i>
+                <h2 class="font-bold text-lg">مساعد LMJO 09 الذكي</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] font-bold px-2 py-1 bg-primary/10 rounded-lg text-primary uppercase">Professional</span>
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            </div>
+        </header>
+
+        <!-- Message History -->
+        <div id="chatHistory" class="flex-1 overflow-y-auto px-6 pt-24 pb-48 space-y-6 max-w-4xl mx-auto w-full">
+            <!-- Initial Message -->
+            <div class="flex flex-col items-start gap-2 w-full message-animate">
+                <div class="flex items-center gap-2 mb-1">
+                    <div class="w-8 h-8 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center">LM</div>
+                    <span class="text-[10px] font-black text-muted uppercase">المساعد</span>
+                </div>
+                <div class="chat-bubble chat-bubble-bot">
+                    أهلاً بك! أنا مساعد LMJO 09 الذكي. كيف يمكنني مساعدتك اليوم؟
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Box -->
+        <div class="fixed bottom-0 left-0 right-0 p-6 glass lg:pr-[320px] z-20">
+            <div class="max-w-4xl mx-auto space-y-4">
+                <div class="relative group">
+                    <div class="absolute inset-x-0 bottom-[-10px] h-[20px] bg-primary/10 blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity pointer-events-none"></div>
+                    <div class="relative bg-card border-2 border-border focus-within:border-primary/50 rounded-[2rem] shadow-2xl p-2 flex items-center transition-all">
+                        <input id="chatInput" type="text" placeholder="اكتب رسالتك للمساعد الذكي..." class="flex-1 bg-transparent border-none outline-none p-3 px-4 text-lg font-medium">
+                        <button id="sendBtn" class="p-4 rounded-full bg-primary text-white shadow-lg transform active:scale-95 transition-all">
+                            <i data-lucide="send" class="w-5 h-5 rotate-180"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        function toggleSidebar(open) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if(open) {
+                sidebar.classList.add('open');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
